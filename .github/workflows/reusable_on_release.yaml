@@ -1,0 +1,105 @@
+name: Release pipeline
+
+# jobs:
+#   job_name:
+#     uses: newrelic/coreint-automation/.github/workflows/reusable_on_release.yaml@v2
+#     with:
+#       tag: ${{ github.event.release.tag_name }}
+#       integration: "integration name" # without the 'nri-' prefix
+#     # When calling this action from the same org we can inherit secrets to avoid specifying them
+#     secrets: inherit
+
+on:
+  workflow_call:
+
+    inputs:
+      tag:
+        description: Tag to be released
+        type: string
+        required: true
+      integration:
+        description: Integration name to be released (without the 'nri-' prefix)
+        type: string
+        required: true
+      # Optional flags
+      test_package:
+        description: Defines if the package should be tested using the 'newrelic/integrations-pkg-test-action/linux' action. Useful if the binary is package with the agent.
+        type: boolean
+        required: false
+        default: true
+      publish_schema:
+        description: Defines the schema for the publish_action.
+        type: string
+        required: false
+        default: "ohi"
+      publish_schema_url:
+        description: Defines the schema_url for the publish_action (it requires publish_schema='custom')
+        type: string
+        required: false
+        default: ""
+
+    secrets: # uppercase secrets to match the already defined organization secrets
+      OHAI_AWS_ROLE_ARN_PRODUCTION:
+        required: true
+      OHAI_AWS_ACCESS_KEY_ID_PRODUCTION:
+        required: true
+      OHAI_AWS_SECRET_ACCESS_KEY_PRODUCTION:
+        required: true
+      OHAI_AWS_ROLE_SESSION_NAME_PRODUCTION:
+        required: true
+      OHAI_GPG_PASSPHRASE:
+        required: true
+      OHAI_GPG_PRIVATE_KEY_BASE64:
+        required: true
+      COREINT_SLACK_TOKEN:
+        required: true
+      COREINT_SLACK_CHANNEL:
+        required: true
+
+jobs:
+  publish-to-s3:
+    name: Send release assets to S3
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish to S3 action
+        uses: newrelic/infrastructure-publish-action@v1
+        with:
+          # lock enabled
+          disable_lock: false
+          run_id: ${{ github.run_id }}
+          tag: ${{ inputs.tag }}
+          app_name: "nri-${{ inputs.integration }}"
+          repo_name: ${{ github.event.repository.full_name }}
+          access_point_host: "production"
+          schema: ${{ inputs.publish_schema }}
+          schema_url: ${{ inputs.publish_schema_url }}
+          aws_region: "us-east-1"
+          aws_role_arn: ${{ secrets.OHAI_AWS_ROLE_ARN_PRODUCTION }}
+          aws_role_session_name: ${{ secrets.OHAI_AWS_ROLE_SESSION_NAME_PRODUCTION }}
+          aws_access_key_id: ${{ secrets.OHAI_AWS_ACCESS_KEY_ID_PRODUCTION }}
+          aws_secret_access_key: ${{ secrets.OHAI_AWS_SECRET_ACCESS_KEY_PRODUCTION }}
+          aws_s3_bucket_name: "nr-downloads-main"
+          # used for locking in case of concurrent releases
+          aws_s3_lock_bucket_name: "onhost-ci-lock"
+          # used for signing package stuff
+          gpg_passphrase: ${{ secrets.OHAI_GPG_PASSPHRASE }}
+          gpg_private_key_base64: ${{ secrets.OHAI_GPG_PRIVATE_KEY_BASE64 }}
+      - name: Test package from prod repo
+        if: ${{ inputs.test_package }}
+        uses: newrelic/integrations-pkg-test-action/linux@v1
+        with:
+          tag: ${{ inputs.tag }}
+          integration: 'nri-${{ inputs.integration }}'
+          packageLocation: repo
+          upgrade: false
+  notify-failure:
+    if: ${{ always() && failure() }}
+    needs: [publish-to-s3]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify failure via Slack
+        uses: archive/github-actions-slack@master
+        with:
+          slack-bot-user-oauth-access-token: ${{ secrets.COREINT_SLACK_TOKEN }}
+          slack-channel: ${{ secrets.COREINT_SLACK_CHANNEL }}
+          slack-text: "❌ `${{ github.event.repository.full_name }}`: [release pipeline failed](${{ github.server_url }}/${{ github.event.repository.full_name }}/actions/runs/${{ github.run_id }})."
