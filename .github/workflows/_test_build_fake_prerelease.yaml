@@ -6,6 +6,13 @@ on:
       integration:
         required: true
         type: string
+      goarch_matrix:
+        required: true
+        type: string
+      download_nrjmx:
+        required: false
+        type: boolean
+        default: false
     secrets:
       OHAI_PFX_CERTIFICATE_BASE64:
         required: true
@@ -52,7 +59,7 @@ jobs:
         working-directory: src/github.com/${{ github.event.repository.full_name }}
     strategy:
       matrix:
-        goarch: [ amd64,386 ]
+        goarch: ${{ fromJSON(inputs.goarch_matrix) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -79,6 +86,12 @@ jobs:
       - name: Extract .exe
         shell: pwsh
         run: build\windows\extract_exe.ps1 "$env:INTEGRATION" ${{ matrix.goarch }} "$env:TAG"
+
+      - name: Download nrjmx
+        if: ${{ inputs.download_nrjmx }}
+        shell: bash
+        run: build/windows/download_nrjmx.sh
+
       - name: Create MSI
         shell: pwsh
         run: build\windows\package_msi.ps1 -integration "$env:INTEGRATION" -arch ${{ matrix.goarch }} -tag "$env:TAG" -pfx_passphrase "$env:PFX_PASSPHRASE" -pfx_certificate_description "$env:PFX_CERTIFICATE_DESCRIPTION"
