@@ -1,0 +1,103 @@
+name: Release automation
+
+# This workflow encompasses two main functions:
+# 1. It checks for the latest successful prerelease, excluding any labeled with "artifacts-pending" or "pre-release-failure",
+#    and promotes it to a full release if suitable. This action should consequently trigger any workflows
+#    that respond to the 'released' event type, ultimately invoking 'reusable_on_release.yaml'.
+#
+# 2. It then triggers the creation of a new prerelease based on specified criteria and included files,
+#    fully automating the release cycle management.
+
+# Usage from the caller workflow:
+# jobs:
+#   release_management:
+#     uses: newrelic/coreint-automation/.github/workflows/reusable_release_automation.yaml@v3
+#     secrets: inherit
+
+on:
+  workflow_call:
+    inputs:
+      block_endpoint:
+        description: This endpoint should respond status 200 for the promotion to continue.
+        required: false
+        type: string
+        default: https://newrelic.github.io/coreint-automation/automatic_release_enable
+    secrets:
+      COREINT_BOT_TOKEN:
+        required: true
+      COREINT_SLACK_CHANNEL:
+        required: true
+      COREINT_SLACK_TOKEN:
+        required: true
+
+jobs:
+  check_block_endpoint:
+    name: Check block endpoint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check block endpoint
+        run: |
+          http_status=$(curl -s -o /dev/null -w "%{http_code}" "${{ inputs.block_endpoint }}")
+
+          if [ "$http_status" != 200 ]; then
+            echo "Fail checking release block endpoint: ${{ inputs.block_endpoint }}"
+            exit 1
+          fi
+
+  promote_prerelease:
+    needs: check_block_endpoint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Promote previous prerelease to release
+        env:
+          GH_TOKEN: "${{ secrets.COREINT_BOT_TOKEN }}"
+        run: |
+          # Get the date of the latest release.
+          LATEST_RELEASE_DATE=$(
+            gh release list --json publishedAt,isLatest -R "${{ github.repository }}" --jq '
+              .[] | select(.isLatest) | .publishedAt | fromdateiso8601
+            '
+          )
+
+          # List all releases, filter by prereleases that were made later than the latest release, sort by date,
+          # reverse because the last one is the most recent and only grab the last prerelease
+          NON_PUBLISHED_PRERELEASE=$(
+            gh release list --json name,publishedAt,isPrerelease,tagName -R "${{ github.repository }}" --order desc --jq '
+              [
+                  .[] | select( .isPrerelease and ((.publishedAt | fromdateiso8601) > '${LATEST_RELEASE_DATE}'))
+              ]
+              | sort_by(.publishedAt |= fromdateiso8601) | first
+            '
+          )
+
+          # Extract the name and tag from the latest prerelease
+          NON_PUBLISHED_PRERELEASE_NAME=$(jq -r '.name' <<<"$NON_PUBLISHED_PRERELEASE")
+          NON_PUBLISHED_PRERELEASE_TAG=$(jq -r '.tagName' <<<"$NON_PUBLISHED_PRERELEASE")
+
+          # Check if the prerelease name matches its tag. Only promote if they are identical. So, in case the prerelase is labeled
+          # with "artifacts-pending" or "pre-release-failure" suffixes, it will fail.
+          if [[ "$NON_PUBLISHED_PRERELEASE_NAME" != "$NON_PUBLISHED_PRERELEASE_TAG" ]]; then
+            echo "Prerelease $NON_PUBLISHED_PRERELEASE_NAME is blocked since it does not match with $NON_PUBLISHED_PRERELEASE_TAG"
+            exit 1
+          fi
+
+          gh release edit "$NON_PUBLISHED_PRERELEASE_TAG" --repo "${{ github.repository }}" --draft=false --prerelease=false
+
+      - name: Notify failure via Slack
+        if: failure()
+        uses: archive/github-actions-slack@master
+        with:
+          slack-bot-user-oauth-access-token: ${{ secrets.COREINT_SLACK_TOKEN }}
+          slack-channel: ${{ secrets.COREINT_SLACK_CHANNEL }}
+          slack-text: "❌ `${{ github.event.repository.full_name }}`: [promote prerelease failed](${{ github.server_url }}/${{ github.event.repository.full_name }}/actions/runs/${{ github.run_id }})"
+
+  trigger_prerelease:
+    if: always()
+    needs: promote_prerelease
+    uses: ./.github/workflows/reusable_trigger_prerelease.yaml
+    secrets:
+      bot_token: ${{ secrets.COREINT_BOT_TOKEN }}
+      slack_channel: ${{ secrets.COREINT_SLACK_CHANNEL }}
+      slack_token: ${{ secrets.COREINT_SLACK_TOKEN }}
+    with:
+      rt-included-files: go.mod,go.sum,build/Dockerfile
