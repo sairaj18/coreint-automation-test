@@ -7,30 +7,29 @@
     {
       "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
       "matchStrings": [
-        "go-version: \\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)]"
+        "go-version: \\[(?<depName>go1.22)\\s*(?<currentValue>1\\.22\\.\\d+),\\s*(?<depName2>go1.23)\\s*(?<currentValue2>1\\.23\\.\\d+)]"
       ],
       "datasourceTemplate": "golang",
-      "depNameTemplate": "golang1",
       "versioningTemplate": "semver",
-      "extractVersionTemplate": "{{#if currentValue1}}{{currentValue1}}{{else}}{{currentValue2}}{{/if}}"
+      "currentValueTemplate": "{{currentValue}}"
+    },
+    {
+      "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
+      "matchStrings": [
+        "go-version: \\[(?<depName2>go1.22)\\s*(?<currentValue1>1\\.22\\.\\d+),\\s*(?<depName>go1.23)\\s*(?<currentValue2>1\\.23\\.\\d+)]"
+      ],
+      "datasourceTemplate": "golang",
+      "versioningTemplate": "semver",
+      "currentValueTemplate": "{{currentValue2}}"
     }
   ],
   "packageRules": [
-    {
-      "matchUpdateTypes": [ "minor" ],
-      "matchPackageNames": [ "aquasecurity/trivy-action" ],
-      "automerge": true,
-      "automergeType": "branch",
-      "pruneBranchAfterAutomerge": true
-    },
-    {
-      "matchDatasources": ["regex"],
-      "matchPackageNames": "golang1",
-      "versioning": "semver",
+     {
+      "matchPackagePatterns": ["^go1.22$", "^go1.23$"],
       "updateTypes": ["patch"],
-      "groupName": "Go patch updates",
       "automerge": true,
-      "automergeType": "branch"
+      "automergeType": "pr",
+      "groupName": "Go patch updates"
     }
   ]
 }
