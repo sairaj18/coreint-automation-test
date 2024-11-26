@@ -28,10 +28,11 @@
   "packageRules": [
      {
       "matchPackageNames": ["golang-1.22", "golang-1.23"],
-      "updateTypes": ["patch"],
+      "matchUpdateTypes": ["patch"],
       "groupName": "Go patch updates",
       "automerge": true,
-      "automergeType": "branch"
+      "pruneBranchAfterAutomerge": true,
+      "platformAutomerge": true
     }
   ]
 }
