@@ -3,16 +3,16 @@
   "extends": [
     "config:recommended"
   ],
-   "regexManagers": [
+  "regexManagers": [
     {
       "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
       "matchStrings": [
-        "go-version: \\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
+        "go-version: \\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)]"
       ],
       "datasourceTemplate": "golang",
+      "depNameTemplate": "golang1",
       "versioningTemplate": "semver",
-      "depNameTemplate":"golang",
-      "currentValueTemplate": "{{#if currentValue1}}{{currentValue1}}{{else}}{{currentValue2}}{{/if}}"
+      "extractVersionTemplate": "{{#if currentValue1}}{{currentValue1}}{{else}}{{currentValue2}}{{/if}}"
     }
   ],
   "packageRules": [
@@ -25,11 +25,12 @@
     },
     {
       "matchDatasources": ["regex"],
-      "matchPackageNames": ["golang"],
+      "matchPackageNames": "golang1",
+      "versioning": "semver",
       "updateTypes": ["patch"],
       "groupName": "Go patch updates",
       "automerge": true,
-      "automergeType": "pr"
+      "automergeType": "branch"
     }
   ]
 }
