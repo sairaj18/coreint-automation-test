@@ -7,31 +7,27 @@
     {
       "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
       "matchStrings": [
-        "go-version:\\s*\\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
+        "go-version: \\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
       ],
       "datasourceTemplate": "golang-version",
-      "versioningTemplate": "semver",
-      "depNameTemplate": "golang",
-      "currentValueTemplate": "{{currentValue1}}",
-      "lookupNameTemplate": "golang",
-      "extractVersionTemplate": "{{currentValue1}}"
+      "depNameTemplate": "golang-1.22",
+      "packageNameTemplate": "golang",
+      "currentValueTemplate": "{{currentValue1}}"
     },
     {
       "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
       "matchStrings": [
-        "go-version:\\s*\\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
+        "go-version: \\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
       ],
       "datasourceTemplate": "golang-version",
-      "versioningTemplate": "semver",
-      "depNameTemplate": "golang",
-      "currentValueTemplate": "{{currentValue2}}",
-      "lookupNameTemplate": "golang",
-      "extractVersionTemplate": "{{currentValue2}}"
+      "depNameTemplate": "golang-1.23",
+      "packageNameTemplate": "golang",
+      "currentValueTemplate": "{{currentValue2}}"
     }
   ],
   "packageRules": [
     {
-      "matchPackageNames": ["golang"],
+      "matchPackageNames": ["golang-1.22", "golang-1.23"],
       "matchDatasources": ["golang-version"],
       "groupName": "Go patch updates",
       "automerge": true,
