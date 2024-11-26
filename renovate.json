@@ -11,8 +11,9 @@
       ],
       "datasourceTemplate": "golang",
       "versioningTemplate": "semver",
-      "extractVersionTemplate": "(?<currentValue>\\d+\\.\\d+\\.\\d+)",
-       "depNameTemplate":"golang"
+      "depNameTemplate":"golang",
+      "currentValueTemplate": "{{#if currentValue1}}{{currentValue1}}{{else}}{{currentValue2}}{{/if}}",
+      "extractVersionTemplate": "(?<currentValue>\\d+\\.\\d+\\.\\d+)"
     }
   ],
   "packageRules": [
