@@ -14,13 +14,12 @@
   ],
   "regexManagers": [
     {
-      "fileMatch": ["^\\.github/workflows/build_publish_builder_image\\.yaml$"],
+      "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
       "matchStrings": [
-        "go-version:\\s*(?<depName>go)\\s*:\\s*(?<currentValue>\\b1\\.22\\.[0-9]+\\b)",
-        "go-version:\\s*(?<depName>go)\\s*:\\s*(?<currentValue>\\b1\\.23\\.[0-9]+\\b)"
+        "go-version: \\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
       ],
       "datasourceTemplate": "golang",
-      "extractVersionTemplate": "\\b(?<version>\\d+\\.\\d+\\.\\d+)\\b"
+      "versioning": "semver"
     }
   ]
 }
