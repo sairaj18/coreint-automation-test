@@ -19,7 +19,7 @@
         "go-version: \\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
       ],
       "datasourceTemplate": "golang",
-      "versioning": "semver"
+      "versioningTemplate": "semver"
     }
   ]
 }
