@@ -19,7 +19,16 @@
         "go-version: \\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
       ],
       "datasourceTemplate": "golang",
-      "versioningTemplate": "semver"
+      "versioningTemplate": "semver",
+      "replaceStringTemplate": "go-version: [{{{newVersion }}}]"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": ["1.22.*", "1.23.*"],
+      "enabled": true,
+      "versioning": "semver",
+      "updateTypes": ["patch"]
     }
   ]
 }
