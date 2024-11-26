@@ -25,12 +25,15 @@
   ],
   "packageRules": [
     {
-      "matchDatasources": ["regex"],  // Indicates handling of regex based managers
-      "matchPackagePatterns": ["^go1\\.22$", "^go1\\.23$"],  // Matches dependencies named go1.22 and go1.23
-      "updateTypes": ["patch"],  // Limits updates to patch-level changes
+      // Indicates handling of regex based managers
+    // Matches dependencies named go1.22 and go1.23
+    // Limits updates to patch-level changes
+      "matchDatasources": ["regex"],  
+      "matchPackagePatterns": ["^go1\\.22$", "^go1\\.23$"],  
+      "updateTypes": ["patch"],  
       "groupName": "Go patch updates",
-      "automerge": true,  // Enables auto-merging
-      "automergeType": "pr",  // Specifies the auto-merge type to branch
+      "automerge": true,
+      "automergeType": "pr",
       "pruneBranchAfterAutomerge": true,
       "platformAutomerge": true,
       "prCreation": "immediate"
