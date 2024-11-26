@@ -45,6 +45,13 @@
       "automerge": true,
       "pruneBranchAfterAutomerge": true,
       "platformAutomerge": true
+    },
+     {
+      "matchUpdateTypes": [ "minor" ],
+      "matchPackageNames": [ "aquasecurity/trivy-action" ],
+      "automerge": true,
+      "automergeType": "branch",
+      "pruneBranchAfterAutomerge": true
     }
   ]
 }
