@@ -24,7 +24,7 @@
       "pruneBranchAfterAutomerge": true
     },
     {
-      "matchDatasourceNames": ["golang"],
+      "matchDatasources": ["regex"],
       "matchPackageNames": ["golang"],
       "updateTypes": ["patch"],
       "groupName": "Go patch updates",
