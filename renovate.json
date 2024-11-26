@@ -33,7 +33,7 @@
         "matchPackagePrefixes": ["golang-1.22"],
         "matchUpdateTypes": ["patch"],
         "groupName": "Go 1.22 patch updates",
-        "automerge": true,
+        "automerge": false,
         "pruneBranchAfterAutomerge": true,
         "platformAutomerge": true
       },
