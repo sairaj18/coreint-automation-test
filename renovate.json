@@ -3,30 +3,6 @@
     "extends": [
       "config:recommended"
     ],
-    "regexManagers": [
-      {
-        "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
-        "matchStrings": [
-          "go-version: \\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
-        ],
-        "datasourceTemplate": "golang-version",
-        "depNameTemplate": "golang-1.22",
-        "packageNameTemplate": "golang",
-        "currentValueTemplate": "{{currentValue1}}",
-        "extractVersionTemplate": "(?<version>1\\.22\\.\\d+)"
-      },
-      {
-        "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
-        "matchStrings": [
-          "go-version: \\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
-        ],
-        "datasourceTemplate": "golang-version",
-        "depNameTemplate": "golang-1.23",
-        "packageNameTemplate": "golang",
-        "currentValueTemplate": "{{currentValue2}}",
-        "extractVersionTemplate": "(?<version>1\\.23\\.\\d+)"
-      }
-    ],
     "packageRules": [
       {
         "matchUpdateTypes": [ "minor" ],
