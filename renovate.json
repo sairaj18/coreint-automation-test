@@ -33,6 +33,7 @@
         "matchPackagePrefixes": ["golang-1.22"],
         "matchUpdateTypes": ["patch"],
         "groupName": "Go 1.22 patch updates",
+        "automerge": true,
         "pruneBranchAfterAutomerge": true,
         "platformAutomerge": true
       },
@@ -41,6 +42,7 @@
         "matchPackagePrefixes": ["golang-1.23"],
         "matchUpdateTypes": ["patch"],
         "groupName": "Go 1.23 patch updates",
+        "automerge": true,
         "pruneBranchAfterAutomerge": true,
         "platformAutomerge": true
       },
