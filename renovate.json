@@ -14,7 +14,7 @@
       "currentValueTemplate": "{{{currentValue1}}}\n {{{currentValue2}}}",
        "depNameTemplate":"golang"
     }
-  ]
+  ],
   "packageRules": [
     {
       "matchUpdateTypes": [ "minor" ],
