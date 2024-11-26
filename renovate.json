@@ -32,7 +32,8 @@
       "groupName": "Go patch updates",
       "automerge": true,
       "pruneBranchAfterAutomerge": true,
-      "platformAutomerge": true
+      "platformAutomerge": true,
+      "prCreation": "immediate"
     }
   ]
 }
