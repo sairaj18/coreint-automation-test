@@ -29,8 +29,9 @@
   ],
   "packageRules": [
     {
-      "matchPackagePrefixes": ["golang-1.22"],
       "matchDatasources": ["golang-version"],
+      "matchPackagePrefixes": ["golang-1.22"],
+      "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
       "matchUpdateTypes": ["patch"],
       "groupName": "Go 1.22 patch updates",
       "automerge": true,
@@ -39,8 +40,9 @@
       "prCreation": "immediate"
     },
     {
-      "matchPackagePrefixes": ["golang-1.23"],
       "matchDatasources": ["golang-version"],
+      "matchPackagePrefixes": ["golang-1.23"],
+      "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
       "matchUpdateTypes": ["patch"],
       "groupName": "Go 1.23 patch updates",
       "automerge": true,
