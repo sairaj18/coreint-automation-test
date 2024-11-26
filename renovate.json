@@ -7,31 +7,31 @@
     {
       "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
       "matchStrings": [
-        "go-version: \\[(?<depName1>go1) (?<currentValue1>1\\.22\\.\\d+), (?<depName2>go2) (?<currentValue2>1\\.23\\.\\d+)\\]"
-      ],
-      "depNameTemplate": "{{#if depName1}}{{depName1}}{{else}}{{depName2}}{{/if}}",
+        "go-version: \\[(?<currentValue>1\\.22\\.\\d+), \\d+\\.\\d+\\.\\d+\\]"
+    ],
+      "depNameTemplate": "golang-1.22",
       "datasourceTemplate": "golang",
       "versioningTemplate": "semver",
-      "extractVersionTemplate": "{{#if currentValue1}}{{currentValue1}}{{else}}{{currentValue2}}{{/if}}"
+      "currentValueTemplate": "{{currentValue}}"
     },
     {
       "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
       "matchStrings": [
-        "go-version: \\[(?<depName2>go2) (?<currentValue2>1\\.23\\.\\d+), (?<depName1>go1) (?<currentValue1>1\\.22\\.\\d+)\\]"
+        "go-version: \\[\\d+\\.\\d+\\.\\d+, (?<currentValue>1\\.23\\.\\d+)\\]"
       ],
-      "depNameTemplate": "{{#if depName2}}{{depName2}}{{else}}{{depName1}}{{/if}}",
+      "depNameTemplate": "golang-1.23",
       "datasourceTemplate": "golang",
       "versioningTemplate": "semver",
-      "extractVersionTemplate": "{{#if currentValue2}}{{currentValue2}}{{else}}{{currentValue1}}{{/if}}"
+      "currentValueTemplate": "{{currentValue}}"
     }
   ],
   "packageRules": [
      {
-      "matchPackageNames": ["go1", "go2"],
+      "matchPackageNames": ["golang-1.22", "golang-1.23"],
       "updateTypes": ["patch"],
+      "groupName": "Go patch updates",
       "automerge": true,
-      "automergeType": "branch",
-      "groupName": "Go patch updates"
+      "automergeType": "branch"
     }
   ]
 }
