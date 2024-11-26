@@ -29,20 +29,20 @@
   ],
   "packageRules": [
     {
-      "matchDatasources": ["golang-version"],
       "matchPackagePrefixes": ["golang-1.22"],
-      "matchUpdateTypes": ["patch"],
+      "updateTypes": ["patch"],
       "groupName": "Go 1.22 patch updates",
       "automerge": true,
+      "automergeType": "pr",
       "pruneBranchAfterAutomerge": true,
       "platformAutomerge": true
     },
     {
-      "matchDatasources": ["golang-version"],
       "matchPackagePrefixes": ["golang-1.23"],
-      "matchUpdateTypes": ["patch"],
+      "updateTypes": ["patch"],
       "groupName": "Go 1.23 patch updates",
       "automerge": true,
+      "automergeType": "pr",
       "pruneBranchAfterAutomerge": true,
       "platformAutomerge": true
     },
