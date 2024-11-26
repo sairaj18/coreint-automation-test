@@ -7,30 +7,21 @@
     {
       "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
       "matchStrings": [
-        "go-version: \\[(?<depName>go1\\.22)\\s*(?<currentValue>1\\.22\\.\\d+),\\s*1\\.23\\.\\d+\\]"
+        "go-version:\\s*\\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
       ],
       "datasourceTemplate": "golang",
-      "versioningTemplate": "semver",
-      "currentValueTemplate": "{{currentValue}}"
-    },
-    {
-      "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
-      "matchStrings": [
-        "go-version: \\[1\\.22\\.\\d+,\\s*(?<depName>go1\\.23)\\s*(?<currentValue>1\\.23\\.\\d+)\\]"
-      ],
-      "datasourceTemplate": "golang",
-      "versioningTemplate": "semver",
-      "currentValueTemplate": "{{currentValue}}"
+      "depNameTemplate": "golang",
+      "currentValueTemplate": "{{#if currentValue1}}{{currentValue1}}{{else}}{{currentValue2}}{{/if}}"
     }
   ],
   "packageRules": [
     {
-      "matchDatasources": ["regex"],  
-      "matchPackagePatterns": ["^go1\\.22$", "^go1\\.23$"],  
-      "updateTypes": ["patch"],  
+      "matchPackageNames": ["golang"],
+      "matchDatasources": ["regex"],
       "groupName": "Go patch updates",
       "automerge": true,
       "automergeType": "pr",
+      "matchUpdateTypes": ["patch"],
       "pruneBranchAfterAutomerge": true,
       "platformAutomerge": true,
       "prCreation": "immediate"
