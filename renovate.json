@@ -31,7 +31,7 @@
       {
         "matchDatasources": ["go-1.22-patch-updates"],
         "automerge": true
-      }
+      },
       {
         "matchDatasources": ["golang-version"],
         "matchPackagePrefixes": ["golang-1.22"],
