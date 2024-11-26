@@ -1,55 +1,39 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ],
-  "regexManagers": [
-    {
-      "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
-      "matchStrings": [
-        "go-version: \\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
-      ],
-      "datasourceTemplate": "golang-version",
-      "depNameTemplate": "golang-1.22",
-      "packageNameTemplate": "golang",
-      "currentValueTemplate": "{{currentValue1}}",
-      "extractVersionTemplate": "(?<version>1\\.22\\.\\d+)"
-    },
-    {
-      "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
-      "matchStrings": [
-        "go-version: \\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
-      ],
-      "datasourceTemplate": "golang-version",
-      "depNameTemplate": "golang-1.23",
-      "packageNameTemplate": "golang",
-      "currentValueTemplate": "{{currentValue2}}",
-      "extractVersionTemplate": "(?<version>1\\.23\\.\\d+)"
-    }
-  ],
-  "packageRules": [
-    {
-      "matchPackagePrefixes": ["golang-1.22"],
-      "updateTypes": ["patch"],
-      "automerge": true,
-      "automergeType": "pr",
-      "pruneBranchAfterAutomerge": true,
-      "platformAutomerge": true
-    },
-    {
-      "matchPackagePrefixes": ["golang-1.23"],
-      "updateTypes": ["patch"],
-      "automerge": true,
-      "automergeType": "pr",
-      "pruneBranchAfterAutomerge": true,
-      "platformAutomerge": true
-    },
-    {
-      "matchUpdateTypes": [ "minor" ],
-      "matchPackageNames": [ "aquasecurity/trivy-action" ],
-      "automerge": true,
-      "automergeType": "branch",
-      "pruneBranchAfterAutomerge": true
-    }
-  ]
-}
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+      "config:recommended"
+    ],
+    "regexManagers": [
+      {
+        "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
+        "matchStrings": [
+          "go-version: \\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
+        ],
+        "datasourceTemplate": "golang-version",
+        "depNameTemplate": "golang-1.22",
+        "packageNameTemplate": "golang",
+        "currentValueTemplate": "{{currentValue1}}",
+        "extractVersionTemplate": "(?<version>1\\.22\\.\\d+)"
+      },
+      {
+        "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
+        "matchStrings": [
+          "go-version: \\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
+        ],
+        "datasourceTemplate": "golang-version",
+        "depNameTemplate": "golang-1.23",
+        "packageNameTemplate": "golang",
+        "currentValueTemplate": "{{currentValue2}}",
+        "extractVersionTemplate": "(?<version>1\\.23\\.\\d+)"
+      }
+    ],
+    "packageRules": [
+      {
+        "matchUpdateTypes": [ "minor" ],
+        "matchPackageNames": [ "aquasecurity/trivy-action" ],
+        "automerge": true,
+        "automergeType": "branch",
+        "pruneBranchAfterAutomerge": true
+      }
+    ]
+  }
