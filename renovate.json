@@ -11,5 +11,16 @@
       "automergeType": "branch",
       "pruneBranchAfterAutomerge": true
     }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": ["build_publish_builder_image.yaml"],
+      "matchStrings": [
+        "go-version:\\s*(?<depName>go)\\s*:\\s*(?<currentValue>\\b1\\.22\\.[0-9]+\\b)",
+        "go-version:\\s*(?<depName>go)\\s*:\\s*(?<currentValue>\\b1\\.23\\.[0-9]+\\b)"
+      ],
+      "datasourceTemplate": "golang",
+      "extractVersionTemplate": "\\b(?<version>\\d+\\.\\d+\\.\\d+)\\b"
+    }
   ]
 }
