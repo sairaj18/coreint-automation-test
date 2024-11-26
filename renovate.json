@@ -11,7 +11,7 @@
       ],
       "datasourceTemplate": "golang",
       "versioningTemplate": "semver",
-      "currentValueTemplate": "{{{currentValue1}}}\n {{{currentValue2}}}",
+      "extractVersionTemplate": "(?<currentValue>\\d+\\.\\d+\\.\\d+)"
        "depNameTemplate":"golang"
     }
   ],
@@ -24,11 +24,12 @@
       "pruneBranchAfterAutomerge": true
     },
     {
-      "matchPackagePatterns": ["^golang$"],
-      "enabled": true,
+      "matchDatasourceNames": ["golang"],
+      "matchPackageNames": ["golang"],
       "updateTypes": ["patch"],
+      "groupName": "Go patch updates",
       "automerge": true,
-      "automergeType": "branch"
+      "automergeType": "pr"
     }
   ]
 }
