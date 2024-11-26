@@ -11,7 +11,7 @@
       ],
       "datasourceTemplate": "golang",
       "versioningTemplate": "semver",
-      "extractVersionTemplate": "(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+      "extractVersionTemplate": "(?<currentValue>\\d+\\.\\d+\\.\\d+)",
        "depNameTemplate":"golang"
     }
   ],
