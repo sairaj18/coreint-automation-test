@@ -7,22 +7,30 @@
     {
       "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
       "matchStrings": [
-        "go-version: \\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
+        "go-version: \\[(?<depName>go1\\.22)\\s*(?<currentValue>1\\.22\\.\\d+),\\s*1\\.23\\.\\d+\\]"
       ],
-      "depNameTemplate": "{{#if currentValue1}}go-1.22{{else}}go-1.23{{/if}}",
       "datasourceTemplate": "golang",
       "versioningTemplate": "semver",
-      "currentValueTemplate": "{{#if currentValue1}}{{currentValue1}}{{else}}{{currentValue2}}{{/if}}"
+      "currentValueTemplate": "{{currentValue}}"
+    },
+    {
+      "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
+      "matchStrings": [
+        "go-version: \\[1\\.22\\.\\d+,\\s*(?<depName>go1\\.23)\\s*(?<currentValue>1\\.23\\.\\d+)\\]"
+      ],
+      "datasourceTemplate": "golang",
+      "versioningTemplate": "semver",
+      "currentValueTemplate": "{{currentValue}}"
     }
   ],
   "packageRules": [
     {
-      "matchDatasources": ["regex"],
-      "matchPackagePatterns": ["^go-1\\.22$", "^go-1\\.23$"],
-      "matchUpdateTypes": ["patch"],
+      "matchDatasources": ["regex"],  // Indicates handling of regex based managers
+      "matchPackagePatterns": ["^go1\\.22$", "^go1\\.23$"],  // Matches dependencies named go1.22 and go1.23
+      "updateTypes": ["patch"],  // Limits updates to patch-level changes
       "groupName": "Go patch updates",
-      "automerge": true,
-      "automergeType": "branch",
+      "automerge": true,  // Enables auto-merging
+      "automergeType": "pr",  // Specifies the auto-merge type to branch
       "pruneBranchAfterAutomerge": true,
       "platformAutomerge": true,
       "prCreation": "immediate"
