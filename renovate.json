@@ -7,17 +7,17 @@
     {
       "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
       "matchStrings": [
-        "go-version:\\s*\\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
+        "go-version\\s*[:=]\\s*(\\[)?(?<currentValue>\\d+\\.\\d+\\.\\d+), \\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)(\\])?",
       ],
-      "datasourceTemplate": "golang",
+      "datasourceTemplate": "golang-version",
       "depNameTemplate": "golang",
-      "currentValueTemplate": "{{#if currentValue1}}{{currentValue1}}{{else}}{{currentValue2}}{{/if}}"
+      "versioningTemplate": "semver"
     }
   ],
   "packageRules": [
     {
       "matchPackageNames": ["golang"],
-      "matchDatasources": ["regex"],
+      "matchDatasources": ["golang-version"],
       "groupName": "Go patch updates",
       "automerge": true,
       "automergeType": "pr",
