@@ -7,11 +7,26 @@
     {
       "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
       "matchStrings": [
-        "go-version\\s*[:=]\\s*(\\[)?(?<currentValue>\\d+\\.\\d+\\.\\d+), \\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)(\\])?",
+        "go-version:\\s*\\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
       ],
       "datasourceTemplate": "golang-version",
+      "versioningTemplate": "semver",
       "depNameTemplate": "golang",
-      "versioningTemplate": "semver"
+      "currentValueTemplate": "{{currentValue1}}",
+      "lookupNameTemplate": "golang",
+      "extractVersionTemplate": "{{currentValue1}}"
+    },
+    {
+      "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
+      "matchStrings": [
+        "go-version:\\s*\\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
+      ],
+      "datasourceTemplate": "golang-version",
+      "versioningTemplate": "semver",
+      "depNameTemplate": "golang",
+      "currentValueTemplate": "{{currentValue2}}",
+      "lookupNameTemplate": "golang",
+      "extractVersionTemplate": "{{currentValue2}}"
     }
   ],
   "packageRules": [
