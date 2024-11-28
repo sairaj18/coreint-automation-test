@@ -11,7 +11,7 @@
         ],
         "datasourceTemplate": "go",
         "depNameTemplate": "golang-1.22",
-        "packageNameTemplate": "go",
+        "packageNameTemplate": "golang-version",
         "currentValueTemplate": "{{currentValue1}}",
         "extractVersionTemplate": "(?<version>1\\.22\\.\\d+)"
       },
@@ -22,7 +22,7 @@
         ],
         "datasourceTemplate": "go",
         "depNameTemplate": "golang-1.23",
-        "packageNameTemplate": "go",
+        "packageNameTemplate": "golang-version",
         "currentValueTemplate": "{{currentValue2}}",
         "extractVersionTemplate": "(?<version>1\\.23\\.\\d+)"
       }
