@@ -5,21 +5,20 @@
   ],
   "regexManagers": [
     {
-      "customType": "regex",
       "fileMatch": ["^\\.github/workflows/build_publish_builder_image\\.yaml$"],
       "matchStrings": [
-        "go-version:\\s*\\[(?<currentValue>[^\\]]+)]"
+        "go-version:\\s*\\[(?<versions>[\\d\\.,\\s]+)\\]"
       ],
-      "datasourceTemplate": "go",
+      "datasourceTemplate": "golang-version",
       "versioningTemplate": "semver",
       "depNameTemplate": "go",
-      "extractVersionTemplate": "{{#each (split currentValue ',')}}{{this}}{{#unless @last}},{{/unless}}{{/each}}"
+      "extractVersionTemplate": "{{#each (split match ' *, *')}}{{@index}}{{#unless @last}},{{/unless}}{{/each}}"
     }
   ],
   "packageRules": [
     {
       "description": "Automerge patch updates for Go versions",
-      "matchDatasources": ["go"],
+      "matchDatasources": ["golang-version"],
       "matchPackageNames": ["go"],
       "matchUpdateTypes": ["patch"],
       "automerge": true,
