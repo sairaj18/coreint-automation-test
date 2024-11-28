@@ -3,6 +3,7 @@
     "extends": [
       "config:recommended"
     ],
+    "automerge": true,
     "regexManagers": [
       {
         "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
