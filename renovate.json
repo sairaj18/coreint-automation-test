@@ -27,12 +27,9 @@
   ],
   "packageRules": [
     {
-        "matchDatasources": [
-            "docker"
-        ],
-        "matchPackageNames": [
-            "ubuntu"
-        ],
+        "matchDatasources": ["docker"],
+        "matchPackageNames": ["ubuntu"],
+        "matchPaths": ["build/Dockerfile"],
         "enabled": false
     },
     {
