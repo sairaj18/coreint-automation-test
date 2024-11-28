@@ -27,6 +27,15 @@
   ],
   "packageRules": [
     {
+        "matchDatasources": [
+            "docker"
+        ],
+        "matchPackageNames": [
+            "ubuntu"
+        ],
+        "enabled": false
+    },
+    {
       "description": "Automerge patch updates for Go versions 1.22.x and 1.23.x",
       "matchDatasources": ["golang-version"],
       "matchPackageNames": ["golang-1.22", "golang-1.23"],
