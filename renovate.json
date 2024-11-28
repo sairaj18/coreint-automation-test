@@ -3,7 +3,6 @@
     "extends": [
       "config:recommended"
     ],
-    "automerge": true,
     "regexManagers": [
       {
         "fileMatch": ["^\\.github/workflows/build_publish_builder_image.yaml$"],
@@ -28,11 +27,11 @@
     ],
     "packageRules": [
       {
+        "automerge": true,
         "matchDatasources": ["golang-version"],
         "matchPackageNames": ["go-1.22", "go-1.23"],
         "matchUpdateTypes": ["patch"],
         "groupName": "Go patch updates",
-        "automerge": true,
         "automergeType": "pr",
         "pruneBranchAfterAutomerge": true,
         "platformAutomerge": true,
