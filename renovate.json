@@ -7,12 +7,13 @@
     {
       "fileMatch": ["^\\.github/workflows/build_publish_builder_image\\.yaml$"],
       "matchStrings": [
-        "go-version:\\s*\\[(?<currentValues>[\\d\\.,\\s]+)\\]"
+        "go-version:\\s*\\[(?<versions>(?:\\d+\\.\\d+\\.\\d+,?\\s*)+)\\]"
       ],
       "datasourceTemplate": "golang-version",
       "versioningTemplate": "semver",
       "depNameTemplate": "go",
-      "currentValueTemplate": "{{#each (split currentValues ',')}}{{this}}{{#unless @last}},{{/unless}}{{/each}}"
+      "currentValueTemplate": "{{{versions}}}",
+      "extractVersionTemplate": "(\\d+\\.\\d+\\.\\d+)"
     }
   ],
   "packageRules": [
