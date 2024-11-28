@@ -9,7 +9,7 @@
         "matchStrings": [
           "go-version: \\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
         ],
-        "datasourceTemplate": "golang",
+        "datasourceTemplate": "go",
         "depNameTemplate": "golang-1.22",
         "packageNameTemplate": "golang",
         "currentValueTemplate": "{{currentValue1}}",
@@ -20,7 +20,7 @@
         "matchStrings": [
           "go-version: \\[(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\]"
         ],
-        "datasourceTemplate": "golang",
+        "datasourceTemplate": "go",
         "depNameTemplate": "golang-1.23",
         "packageNameTemplate": "golang",
         "currentValueTemplate": "{{currentValue2}}",
@@ -29,7 +29,7 @@
     ],
     "packageRules": [
       {
-        "matchDatasources": ["golang"],
+        "matchDatasources": ["go"],
         "matchPackageNames": ["go-1.22", "go-1.23"],
         "updateTypes": ["patch"],
         "groupName": "Go patch updates",
