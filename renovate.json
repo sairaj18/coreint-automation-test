@@ -11,7 +11,7 @@
       ],
       "datasourceTemplate": "golang-version",
       "versioningTemplate": "semver",
-      "depNameTemplate": "go",
+      "depNameTemplate": "go-1.x",
       "currentValueTemplate": "{{{versions}}}",
       "extractVersionTemplate": "(\\d+\\.\\d+\\.\\d+)"
     }
@@ -20,7 +20,7 @@
     {
       "description": "Automerge patch updates for Go versions",
       "matchDatasources": ["golang-version"],
-      "matchPackageNames": ["go"],
+      "matchPackageNames": ["go-1.x"],
       "matchUpdateTypes": ["patch"],
       "automerge": true,
       "prCreation": "immediate"
