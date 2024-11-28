@@ -31,17 +31,17 @@
       "matchDatasources": ["golang-version"],
       "matchPackageNames": ["golang-1.22", "golang-1.23"],
       "matchUpdateTypes": ["patch"],
-      "groupName": "Go patch updates",
       "automerge": true,
-      "prCreation": "immediate"
+      "prCreation": "immediate",
+      "pruneBranchAfterAutomerge": true,
+      "platformAutomerge": true
     },
     {
-      "description": "Raise PR for minor and major updates for Go versions 1.22.x and 1.23.x",
+      "description": "Ignore minor and major updates for Go versions 1.22 and 1.23",
       "matchDatasources": ["golang-version"],
       "matchPackageNames": ["golang-1.22", "golang-1.23"],
       "matchUpdateTypes": ["minor", "major"],
-      "automerge": false,
-      "prCreation": "immediate"
+      "enabled": false
     },
     {
       "description": "Automerge minor updates for trivy-action",
