@@ -37,13 +37,6 @@
       "platformAutomerge": true
     },
     {
-      "description": "Ignore minor and major updates for Go versions 1.22 and 1.23",
-      "matchDatasources": ["golang-version"],
-      "matchPackageNames": ["golang-1.22", "golang-1.23"],
-      "matchUpdateTypes": ["minor", "major"],
-      "enabled": false
-    },
-    {
       "description": "Automerge minor updates for trivy-action",
       "matchUpdateTypes": ["minor"],
       "matchPackageNames": ["aquasecurity/trivy-action"],
