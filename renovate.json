@@ -29,7 +29,7 @@
       {
         "automerge": true,
         "matchDatasources": ["golang-version"],
-        "matchPackageNames": ["go-1.22", "go-1.23"],
+        "matchPackageNames": ["golang-1.22", "golang-1.23"],
         "matchUpdateTypes": ["patch"],
         "groupName": "Go patch updates",
         "automergeType": "pr",
