@@ -7,23 +7,41 @@
     {
       "fileMatch": ["^\\.github/workflows/build_publish_builder_image\\.yaml$"],
       "matchStrings": [
-        "go-version: \\[\\s*(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)]"
+        "go-version:\\s*\\[\\s*(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\s*\\]"
       ],
       "datasourceTemplate": "golang-version",
-      "depNameTemplate": "golang-1.2x",
-      "currentValueTemplate": "{{{currentValue}}}",
-      "extractVersionTemplate": "(?<version>1\\.\\d+\\.\\d+)"
+      "depNameTemplate": "golang-1.22",
+      "currentValueTemplate": "{{{currentValue1}}}",
+      "extractVersionTemplate": "(?<version>1\\.22\\.\\d+)"
+    },
+    {
+      "fileMatch": ["^\\.github/workflows/build_publish_builder_image\\.yaml$"],
+      "matchStrings": [
+        "go-version:\\s*\\[\\s*(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\s*\\]"
+      ],
+      "datasourceTemplate": "golang-version",
+      "depNameTemplate": "golang-1.23",
+      "currentValueTemplate": "{{{currentValue2}}}",
+      "extractVersionTemplate": "(?<version>1\\.23\\.\\d+)"
     }
   ],
   "packageRules": [
     {
       "description": "Automerge patch updates for Go versions 1.22.x and 1.23.x",
       "matchDatasources": ["golang-version"],
-      "matchPackageNames": ["golang-1.2x"],
+      "matchPackageNames": ["golang-1.22", "golang-1.23"],
       "matchUpdateTypes": ["patch"],
+      "groupName": "Go patch updates",
       "automerge": true,
-      "prCreation": "immediate",
-      "groupName": "Go patch updates"
+      "prCreation": "immediate"
+    },
+    {
+      "description": "Raise PR for minor and major updates for Go versions 1.22.x and 1.23.x",
+      "matchDatasources": ["golang-version"],
+      "matchPackageNames": ["golang-1.22", "golang-1.23"],
+      "matchUpdateTypes": ["minor", "major"],
+      "automerge": false,
+      "prCreation": "immediate"
     },
     {
       "description": "Automerge minor updates for trivy-action",
