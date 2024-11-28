@@ -59,7 +59,7 @@
     {
         // go.mod golang-version is not updated by default, check <https://github.com/renovatebot/renovate/issues/16715>.
         // Enable golang version bumps in 'go.mod' but disable auto-merge.
-        "matchDatasources": ["golang-version"],
+        "matchDatasources": ["golang-minor-and-major-versions"],
         "rangeStrategy": "bump"
     },
     {
@@ -69,7 +69,7 @@
         // Disabled automerge for golang & go packages minor, major version updates
         "matchPackageNames": ["golang", "go"],
         "matchUpdateTypes": ["minor", "major"],
-        "groupName": "golang version",
+        "groupName": "golang minor and major versions",
         "automerge": false,
         "pruneBranchAfterAutomerge": true
     },
