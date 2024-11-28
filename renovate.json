@@ -10,7 +10,7 @@
         "go-version: \\[\\s*(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)]"
       ],
       "datasourceTemplate": "golang-version",
-      "depNameTemplate": "golang",
+      "depNameTemplate": "golang-1.2x",
       "currentValueTemplate": "{{{currentValue}}}",
       "extractVersionTemplate": "(?<version>1\\.\\d+\\.\\d+)"
     }
@@ -19,7 +19,7 @@
     {
       "description": "Automerge patch updates for Go versions 1.22.x and 1.23.x",
       "matchDatasources": ["golang-version"],
-      "matchPackageNames": ["golang"],
+      "matchPackageNames": ["golang-1.2x"],
       "matchUpdateTypes": ["patch"],
       "automerge": true,
       "prCreation": "immediate",
