@@ -8,23 +8,23 @@
       "customType": "regex",
       "fileMatch": ["^\\.github/workflows/build_publish_builder_image\\.yaml$"],
       "matchStrings": [
-        "go-version:\\s*\\[\\s*(?<currentValue1>1\\.d+\\.\\d+),\\s*(?<currentValue2>1\\.d+\\.\\d+)\\s*\\]"
+        "go-version:\\s*\\[\\s*(?<currentValue1>1\\.<currentMinor1>\\.\\d+),\\s*(?<currentValue2>1\\.<currentMinor2>\\.\\d+)\\s*\\]"
       ],
       "datasourceTemplate": "golang-version",
       "depNameTemplate": "golang-1",
       "currentValueTemplate": "{{{currentValue1}}}",
-      "extractVersionTemplate": "(?<version>1\\.d+\\.\\d+)"
+      "extractVersionTemplate": "(?<version>1\\.<currentMinor1>\\.\\d+)"
     },
     {
       "customType": "regex",
       "fileMatch": ["^\\.github/workflows/build_publish_builder_image\\.yaml$"],
       "matchStrings": [
-        "go-version:\\s*\\[\\s*(?<currentValue1>1\\.d+\\.\\d+),\\s*(?<currentValue2>1\\.d+\\.\\d+)\\s*\\]"
+        "go-version:\\s*\\[\\s*(?<currentValue1>1\\.<currentMinor1>\\.\\d+),\\s*(?<currentValue2>1\\.<currentMinor2>\\.\\d+)\\s*\\]"
       ],
       "datasourceTemplate": "golang-version",
       "depNameTemplate": "golang-2",
       "currentValueTemplate": "{{{currentValue2}}}",
-      "extractVersionTemplate": "(?<version>1\\.d+\\.\\d+)"
+      "extractVersionTemplate": "(?<version>1\\.<currentMinor2>\\.\\d+)"
     }
   ],
   "packageRules": [
