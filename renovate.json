@@ -3,47 +3,42 @@
   "extends": [
     "config:recommended"
   ],
-  "regexManagers": [
+  "customManagers": [
     {
+      "customType": "regex",
       "fileMatch": ["^\\.github/workflows/build_publish_builder_image\\.yaml$"],
       "matchStrings": [
-        "go-version:\\s*\\[\\s*(?<go1>\\d+\\.\\d+\\.\\d+)\\s*,\\s*(?<go2>\\d+\\.\\d+\\.\\d+)\\s*\\]"
+        "go-version:\\s*\\[\\s*(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\s*\\]"
       ],
       "datasourceTemplate": "golang-version",
-      "versioningTemplate": "semver",
-      "depNameTemplate": "go-{{{currentValue}}}",
-      "currentValueTemplate": "{{{go1}}}",
-      "extractVersionTemplate": "1\\.22\\.(\\d+)"
+      "depNameTemplate": "golang-1.22",
+      "currentValueTemplate": "{{{currentValue1}}}",
+      "extractVersionTemplate": "(?<version>1\\.22\\.\\d+)"
     },
     {
       "fileMatch": ["^\\.github/workflows/build_publish_builder_image\\.yaml$"],
       "matchStrings": [
-        "go-version:\\s*\\[\\s*(?<go1>\\d+\\.\\d+\\.\\d+)\\s*,\\s*(?<go2>\\d+\\.\\d+\\.\\d+)\\s*\\]"
+        "go-version:\\s*\\[\\s*(?<currentValue1>1\\.22\\.\\d+),\\s*(?<currentValue2>1\\.23\\.\\d+)\\s*\\]"
       ],
       "datasourceTemplate": "golang-version",
-      "versioningTemplate": "semver",
-      "depNameTemplate": "go-{{{currentValue}}}",
-      "currentValueTemplate": "{{{go2}}}",
-      "extractVersionTemplate": "1\\.23\\.(\\d+)"
+      "depNameTemplate": "golang-1.23",
+      "currentValueTemplate": "{{{currentValue2}}}",
+      "extractVersionTemplate": "(?<version>1\\.23\\.\\d+)"
     }
   ],
   "packageRules": [
     {
-      "description": "Automerge patch updates for Go 1.22.x and 1.23.x",
+      "description": "Automerge patch updates for Go versions 1.22.x and 1.23.x",
       "matchDatasources": ["golang-version"],
-      "matchPackageNames": ["go-1.22", "go-1.23"],
+      "matchPackageNames": ["golang-1.22", "golang-1.23"],
       "matchUpdateTypes": ["patch"],
-      "automerge": true
+      "automerge": true,
+      "automergeType":"pr",
+      "prCreation": "immediate",
+      "pruneBranchAfterAutomerge": true,
+      "platformAutomerge": true
     },
     {
-      "description": "Ignore minor and major updates for Go versions",
-      "matchDatasources": ["golang-version"],
-      "matchPackageNames": ["go-1.22", "go-1.23"],
-      "matchUpdateTypes": ["minor", "major"],
-      "enabled": false
-    },
-    {
-      "description": "Automerge minor updates for trivy-action",
       "matchUpdateTypes": ["minor"],
       "matchPackageNames": ["aquasecurity/trivy-action"],
       "automerge": true,
