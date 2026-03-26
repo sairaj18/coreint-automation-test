@@ -8,7 +8,7 @@ jobs:
     name: Run all static analysis checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: newrelic/newrelic-infra-checkers@v1
       - uses: actions/setup-go@v5
         with:
