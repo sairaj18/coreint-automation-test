@@ -136,7 +136,7 @@ jobs:
     # related to https://github.com/actions/runner/issues/2205
     # since a success() is added by default and skipped jobs make success to fail we need to introduce this workaround
     if: ${{ always() && needs.build-artifacts.result == 'success' && inputs.run_build-win-packages }}
-    runs-on: windows-2022
+    runs-on: windows-2025
     needs: [build-artifacts]
     strategy:
       matrix:
